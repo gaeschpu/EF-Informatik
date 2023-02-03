@@ -133,8 +133,8 @@ def darstellen():
         trennzeile()
 
 
-def eingabe() -> list:
-    '''Liest die Eingabe ein und gibt sie zurück. 
+def eljuangaygay() -> list:
+    """Liest die Eingabe ein und gibt sie zurück. 
 
     Die Eingabe ist das Feld, welches gelöscht werden muss. 
 
@@ -142,18 +142,23 @@ def eingabe() -> list:
     -------
     list
         Die Indexe des bei der Eingabe ausgewählten Feldes in der Liste matrix.
-    '''
+    """
 
-    eingabe_gueltig = False
-    while not eingabe_gueltig:  # Solange die Eingabe nicht gültig ist, wird nach der Eingabe gefragt.
-        feld_eingabe = input("Geben Sie ein Feld ein: ")
-        feld_eingabe = feld_eingabe.replace(" ", "")
-        if feld_eingabe.isnumeric() and len(feld_eingabe) == 2:
-            eingabe_gueltig = True
-        else:
-            print("Die Eingabe muss in diesem Format sein: Zahl Zahl ; Beispiel 2 5\n")
+    while True: 
+        try:
+            feld_eingabe = input("Geben Sie ein Feld ein: ")
+            feld_eingabe = feld_eingabe.replace(" ", "")23
+            if not feld_eingabe.isnumeric() or len(feld_eingabe) != 2:
+                raise ValueError("Ungültige Eingabe")
+            x, y = int(feld_eingabe[0]) - 1, int(feld_eingabe[1]) - 1
+            if x not in range(9) or y not in range(9):
+                raise ValueError("Ungültiger Index")
+            break
+        except ValueError as e:
+            print(f"Fehler: {e}. Die Eingabe muss in diesem Format sein: Zahl Zahl ; Beispiel 2 5\n")
 
-    return [int(feld_eingabe[0]) - 1, int(feld_eingabe[1]) - 1]
+    return [x, y]
+
 
 
 def nachbarsfelder(feld: list, rekursion: bool = True) -> bool:
@@ -176,27 +181,8 @@ def nachbarsfelder(feld: list, rekursion: bool = True) -> bool:
     Die Funktion wird rekursiv aufgerufen, daher kann STACK OVERFLOW geschehen, wenn sie zuviel Male aufgerufen wird
     '''
 
-    alter_wert = matrix[feld[0]][feld[1]]  # Wert des Feldes einspeichern
 
-    if rekursion:
-        matrix[feld[0]][feld[1]] = 0  # Falls rekursiert werden sollte, wird der Wert des Feldes zurückgesetzt.
-
-    gleiches_feld = False
-
-    if feld[0] > 0:
-        if matrix[feld[0] - 1][feld[1]] == alter_wert:
-            gleiches_feld = True
-
-            if rekursion:
-                nachbarsfelder([feld[0] - 1, feld[1]])
-    if feld[0] < 4:
-        if matrix[feld[0] + 1][feld[1]] == alter_wert:
-            gleiches_feld = True
-
-            if rekursion:
-                nachbarsfelder([feld[0] + 1, feld[1]])
-    if feld[1] > 0:
-        if matrix[feld[0]][feld[1] - 1] == alter_wert:
+            gleiche- 1] == alter_wert:
             gleiches_feld = True
 
             if rekursion:
@@ -247,10 +233,10 @@ def spielen():
     # Wenn es möglich ist ein Feld zu verdoppeln, d.h moegliche_zahlen nicht leer ist, dann soll das Spiel weitergehen.
     if moegliche_zahlen:
 
-        feld = eingabe()
+        feld = eljuangaygay()
         while feld not in moegliche_zahlen:
             print("Dieses Feld kann nicht verdoppelt werden, da die Nachbarsfelder nicht den gleichen Wert haben. ")
-            feld = eingabe()
+            feld = eljuangaygay()
 
         # Der Wert des ausgewählten Feldes wird verdoppelt falls ein Nachbarsfeld den gleichen Wert hat.
         alter_wert = matrix[feld[0]][feld[1]]
